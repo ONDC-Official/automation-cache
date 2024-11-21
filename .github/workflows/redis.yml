@@ -29,9 +29,11 @@ jobs:
           ssh -o StrictHostKeyChecking=no -tt ${{ secrets.USER}}@${{ secrets.HOST }} <<EOF
           echo "pulling docker image"
           docker pull redis
+          docker stop redis-cache
+          docker rm redis-cache
           echo "Running Redis Container"
           docker run -d \
-            --name redis-secure \
+            --name redis-cache \
             -p 6379:6379 \
             redis:latest \
             redis-server --requirepass mysecurepassword
