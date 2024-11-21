@@ -27,7 +27,13 @@ jobs:
       - name: Deploy Protocol Server bpp
         run: |
           ssh -o StrictHostKeyChecking=no -tt ${{ secrets.USER}}@${{ secrets.HOST }} <<EOF
+          echo "pulling docker image"
           docker pull redis
-          docker run -d --name redis-cache -p 6379:6379 redis:latest
+          echo "Running Redis Container"
+          docker run -d \
+            --name redis-secure \
+            -p 6379:6379 \
+            redis:latest \
+            redis-server --requirepass mysecurepassword
           echo "redis running"
           EOF
