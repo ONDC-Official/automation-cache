@@ -27,8 +27,8 @@ jobs:
       - name: Deploy Protocol Server bpp
         run: |
           ssh -o StrictHostKeyChecking=no -tt ${{ secrets.USER}}@${{ secrets.HOST }} <<EOF
-          echo "pulling docker image"
-          echo "Running Redis Container"
+          sudo docker inspect -f '{{.State.Running}}' redis-cache &>/dev/null && \
+          sudo docker stop redis-cache && sudo docker rm radis-cache
           sudo docker run -d \
             --name redis-cache \
             -p 6379:6379 \
