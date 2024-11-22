@@ -36,6 +36,6 @@ jobs:
             --name redis-cache \
             -p 6379:6379 \
             redis:latest \
-            redis-server --requirepass mysecurepassword
+            redis-server --requirepass ${{ secrets.REDIS_PASSWORD}}
           echo "redis running"
           EOF
