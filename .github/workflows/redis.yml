@@ -21,15 +21,16 @@ jobs:
 
       - name: Deploy Redis Container
         run: |
-          ssh -o StrictHostKeyChecking=no -tt ${{ secrets.USER }}@${{ secrets.HOST }} <<EOF
-          if sudo docker inspect -f "{{.State.Running}}" redis-cache &>/dev/null; then
-            sudo docker stop redis-cache && sudo docker rm redis-cache
-          fi
-          sudo docker run -d \
-            --name redis-cache \
-            -p 6379:6379 \
-            redis:latest \
-            redis-server --requirepass $REDIS_PASSWORD
-          EOF
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} "
+            if sudo docker inspect -f '{{.State.Running}}' redis-cache &>/dev/null; then
+              sudo docker stop redis-cache && sudo docker rm redis-cache
+            fi
+            sudo docker run -d \
+              --name redis-cache \
+              -p 6379:6379 \
+              redis:latest \
+              redis-server --requirepass $REDIS_PASSWORD
+          "
         env:
           REDIS_PASSWORD: ${{ vars.REDIS_PASSWORD }}
+
