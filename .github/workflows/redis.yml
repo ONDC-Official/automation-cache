@@ -28,14 +28,10 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -tt ${{ secrets.USER}}@${{ secrets.HOST }} <<EOF
           echo "pulling docker image"
-          sudo docker pull redis
-          sudo docker stop redis-cache
-          sudo docker rm redis-cache
           echo "Running Redis Container"
           sudo docker run -d \
             --name redis-cache \
             -p 6379:6379 \
             redis:latest \
             redis-server --requirepass ${{ vars.REDIS_PASSWORD}}
-          echo "redis running"
           EOF
