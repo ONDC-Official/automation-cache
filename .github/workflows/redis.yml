@@ -25,20 +25,21 @@ jobs:
             if sudo docker inspect -f '{{.State.Running}}' redis-cache &>/dev/null; then
               sudo docker stop redis-cache && sudo docker rm redis-cache
             fi
-            # Create ACL file
+
+            # Create ACL file explicitly as a file
             echo \"# Disable default user
             user default off
             # Create custom user with full access
             user ${REDIS_USERNAME} on >${REDIS_PASSWORD} ~* +@all\" > /tmp/redis-users.acl
 
-            # Ensure the ACL file exists before running Docker
-            touch /tmp/redis-users.acl
+            # Ensure correct permissions on the ACL file
+            chmod 644 /tmp/redis-users.acl
 
-            # Deploy Redis container
+            # Deploy Redis container with the ACL file
             sudo docker run -d \
               --name redis-cache \
               -p 6379:6379 \
-              -v /tmp/redis-users.acl:/usr/local/etc/redis-users.acl \
+              -v /tmp/redis-users.acl:/usr/local/etc/redis-users.acl:ro \
               redis:latest \
               redis-server --aclfile /usr/local/etc/redis-users.acl
           "
