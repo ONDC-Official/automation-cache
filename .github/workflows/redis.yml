@@ -19,18 +19,20 @@ jobs:
         run: |
           ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy Redis Container
+      - name: Deploy Redis Container with Username and Password
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} "
+          ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} bash -c "
             if sudo docker inspect -f '{{.State.Running}}' redis-cache &>/dev/null; then
               sudo docker stop redis-cache && sudo docker rm redis-cache
             fi
+            echo 'user ${REDIS_USERNAME} on >${REDIS_PASSWORD} ~* +@all' > /tmp/redis-users.acl
             sudo docker run -d \
               --name redis-cache \
               -p 6379:6379 \
+              -v /tmp/redis-users.acl:/usr/local/etc/redis/redis-users.acl \
               redis:latest \
-              redis-server --requirepass $REDIS_PASSWORD
+              redis-server --aclfile /usr/local/etc/redis/redis-users.acl
           "
         env:
+          REDIS_USERNAME: ${{ vars.REDIS_USERNAME }}
           REDIS_PASSWORD: ${{ vars.REDIS_PASSWORD }}
-
