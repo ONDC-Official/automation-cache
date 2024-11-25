@@ -39,7 +39,7 @@ jobs:
             sudo docker run -d \
               --name redis-cache \
               -p 6379:6379 \
-              -v /tmp/redis-users.acl:/usr/local/etc/redis-users.acl:ro \
+              -v /tmp/redis-users.acl:/usr/local/etc/redis-users.acl \
               redis:latest \
               redis-server --aclfile /usr/local/etc/redis-users.acl
           "
