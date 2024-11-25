@@ -1,0 +1,38 @@
+{
+  "name": "ondc-automation-cache-lib",
+  "version": "1.0.3",
+  "description": "redis cache lib for CRUD operations",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/index.ts",
+    "test": "echo \"Write tests!\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orgs/ONDC-Official/automation-cache"
+  },
+  "bugs": {
+    "url": "https://github.com/ONDC-Official/automation-cache/issues"
+  },
+  "homepage": "https://github.com/ONDC-Official/automation-cache#readme",
+  "keywords": [
+    "automation-cache",
+    "ondc-redis-cache",
+    "ondc-automation-cache-lib"
+  ],
+  "author": "ondc-official",
+  "contributors": [
+    "sandeepshahi"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ioredis": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "typescript": "^5.6.3"
+  }
+}
