@@ -19,13 +19,15 @@ jobs:
         run: |
           ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
+      - name: Pull redis image
+        run : docker pull redis
+
       - name: Deploy Redis Container with Custom User Authentication
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} bash -c "
             if sudo docker inspect -f '{{.State.Running}}' redis-cache &>/dev/null; then
               sudo docker stop redis-cache && sudo docker rm redis-cache
             fi
-
             # Create ACL file explicitly as a file
             echo \"# Disable default user
             user default off
