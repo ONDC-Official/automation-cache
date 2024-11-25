@@ -20,7 +20,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
       - name: Pull redis image
-        run : docker pull redis
+        run : docker pull redis:latest
 
       - name: Deploy Redis Container with Custom User Authentication
         run: |
