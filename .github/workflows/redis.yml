@@ -27,9 +27,12 @@ jobs:
             fi
             # Create ACL file
             echo \"# Disable default user
-            user default off
-            # Create custom user with full access
-            user ${REDIS_USERNAME} on >${REDIS_PASSWORD} ~* +@all\" > /tmp/redis-users.acl
+user default off
+# Create custom user with full access
+user ${REDIS_USERNAME} on >${REDIS_PASSWORD} ~* +@all\" > /tmp/redis-users.acl
+
+            # Ensure the ACL file exists before running Docker
+            touch /tmp/redis-users.acl
 
             # Deploy Redis container
             sudo docker run -d \
